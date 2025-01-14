@@ -1,0 +1,10 @@
+.mySwiper .swiper-pagination {
+    display: block ;
+    opacity: 1 ;
+    bottom: 10px ; /* Adjust as needed */
+    position: absolute ;
+    width: 100% ;
+    text-align: center ;
+  }
+
+ 
