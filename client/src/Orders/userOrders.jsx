@@ -1,7 +1,8 @@
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useEffect ,useState} from 'react';
 import axios from 'axios';
+import { use } from 'react';
 
 const MyOrders = () => {
     const id=useParams().id;
@@ -62,7 +63,16 @@ const MyOrders = () => {
     },[])
 
 
-    
+        const navigate=useNavigate();
+
+    const contact=async(idofseller)=>{
+        
+        const sellerid=idofseller;
+        const mineid=id;
+        console.log("mindeid",mineid,"sellersid",sellerid);
+        navigate(`/Chat/${mineid}/${sellerid}`);
+
+    }
 
 
 
@@ -102,9 +112,8 @@ const MyOrders = () => {
 
                                             <div >
                                             <button
-                                                        onClick={() => alert("Contact initiated!")}
                                                         className="px-4 py-2 bg-black hover:bg-gray-600 hover:scale-105 text-white text-sm font-medium rounded-lg transition-colors duration-200 "
-                                                        >
+                                                        onClick={()=>contact(dt.orderfromServiceProvider._id)} >
                                                         Contact
                                                         </button>
                                             </div>

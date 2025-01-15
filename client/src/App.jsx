@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import MyOrders from './Orders/userOrders.jsx'
 import Myservices from './Servicespage/Myservices.jsx'
 import Myclients from './detailsaboutsellercards/Myclients.jsx'
+import Chat from './Chats/Chat.jsx'
 
 
 function App() {
@@ -99,6 +100,10 @@ export const approuter = createBrowserRouter([
           {
             path:"/clients/:id",
             element:<Myclients/>
+          },
+          {
+            path:'/Chat/:mineid/:sellerid',
+            element:<Chat/>
           }
           
           

@@ -2,6 +2,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Bookslots = () => {
   const location = useLocation();
@@ -35,16 +36,24 @@ const Bookslots = () => {
   }, [selectedslot]);
 
   const checkouthandler = async (amount) => {
-    const {
-      data: { key },
-    } = await axios.get("http://localhost:3000/api/payments/getkey",{withCredentials:true});
-
-    const {
-      data: { order },
-    } = await axios.post("http://localhost:3000/api/payments/checkout", {
-      amount,
-    },{withCredentials:true});
-
+    try {
+      const {
+        data: { key },
+      } = await axios.get("http://localhost:3000/api/payments/getkey",{withCredentials:true});
+  
+      const {
+        data: { order },
+      } = await axios.post("http://localhost:3000/api/payments/checkout", {
+        amount,
+      },{withCredentials:true});
+  
+    } catch (error) {
+      toast.error("Please SignIn to access this service",
+        {
+          alignment: 'center' 
+        }
+      );
+    }
     const options = {
       key,
       amount: order.amount,
