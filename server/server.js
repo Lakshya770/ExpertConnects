@@ -9,6 +9,12 @@ import routerpayments from './routes/payments.route.js'
 import Razorpay from 'razorpay'
 import router_order from './routes/order.route.js'
 import cookieParser from "cookie-parser";
+import { Server } from 'socket.io'
+import {createServer} from 'http'
+import chatSocketHandler from './chatsockethandler.js'
+import router_chat from './routes/chat.route.js'
+
+
 
 
 
@@ -36,6 +42,17 @@ const connectDB=async()=>{
 connectDB()
 const app = express()
 
+const server=createServer(app);
+
+const io = new Server(server, {
+    cors:{
+        origin:'http://localhost:5173',
+        methods: ['GET', 'POST'],
+        credentials:true
+    }
+})
+
+chatSocketHandler(io);
 
 
 
@@ -72,7 +89,10 @@ app.use("/api/service_provider",router_server)
 app.use("/api/service",router_services)
 app.use("/api/payments",routerpayments)
 app.use("/api/orders",router_order)
+app.use('/api/messages', router_chat);
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`)})
+server.listen(port, () => {
+console.log(`Server is running on port ${port}`)})
+
+
 

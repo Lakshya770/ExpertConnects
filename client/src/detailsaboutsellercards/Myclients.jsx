@@ -1,24 +1,36 @@
 import { useParams } from "react-router-dom";
 import { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Myclients = () => {
 
     const id=useParams().id
     const [fetchd,setfetchd]=useState([]);
     const [statuscode,setstatuscode]=useState(0);
+    const navigate=useNavigate();
 
     useEffect(()=>{
 
         const datafetch=async()=>{
-            const dt=await axios.get(`http://localhost:3000/api/Orders/myclients/${id}`,{withCredentials:true})
+            const dt=await axios.get(`http://localhost:3000/api/orders/myclients/${id}`,{withCredentials:true})
             console.log(dt.data);
             setstatuscode(dt.data.code);
             if(dt.data.code!=404){
             setfetchd(dt.data.myclients);
+
               }
             }
         datafetch();
     },[])
+
+    const contact=(idofseller,boolean)=>{
+        
+        const sellersid=idofseller;
+        const mineid=id;
+        console.log("mindeid",mineid,"sellersid",sellersid);
+        navigate(`/Chat/${mineid}/${sellersid}/${boolean}`);
+
+    }
 
 
     return <div>
@@ -61,7 +73,7 @@ const Myclients = () => {
 
                                             <div >
                                             <button
-                                                        onClick={() => alert("Contact initiated!")}
+                                                        onClick={()=>contact(dt.orderbyUser._id || dt.orderbySeller._id,dt.boolnum) }
                                                         className="px-4 py-2 bg-black hover:bg-gray-600 hover:scale-105 text-white text-sm font-medium rounded-lg transition-colors duration-200 "
                                                         >
                                                         Contact

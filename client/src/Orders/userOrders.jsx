@@ -65,12 +65,13 @@ const MyOrders = () => {
 
         const navigate=useNavigate();
 
-    const contact=async(idofseller)=>{
+    const contact=(idofseller)=>{
         
-        const sellerid=idofseller;
+        const sellersid=idofseller;
         const mineid=id;
-        console.log("mindeid",mineid,"sellersid",sellerid);
-        navigate(`/Chat/${mineid}/${sellerid}`);
+        const boolean=2
+        console.log("mindeid",mineid,"sellersid",sellersid);
+        navigate(`/Chat/${mineid}/${sellersid}/${boolean}`);
 
     }
 
