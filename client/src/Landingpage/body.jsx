@@ -3,10 +3,12 @@ import Search from "./search"
 import Tiles from "./tiles"
 import axios from "axios"
 import Cards from "./cards"
+import  Cookies  from "js-cookie"
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 
-console.log()
+const user=Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+console.log(user)
 
 const Body=()=>{
 
