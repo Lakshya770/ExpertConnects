@@ -87,7 +87,7 @@ export const  loginseller = async (req, res) => {
   const loggedinuser=await Service_Provider.findById(user._id).select("-SellerPassword");
 
   const options={
-    
+    path:"/",
     httpOnly:false,
     secure:true,
     sameSite:"None",

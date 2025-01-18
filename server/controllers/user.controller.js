@@ -88,6 +88,7 @@ export const loginuser = async (req, res) => {
     secure:true,
     sameSite:"None",
     httpOnly:false,
+    path:"/",
   }
 
   return res.status(200)
