@@ -86,7 +86,8 @@ export const loginuser = async (req, res) => {
 
   const options={
     secure:true,
-    sameSite:"none",
+    sameSite:"None",
+    httpOnly:false,
   }
 
   return res.status(200)
