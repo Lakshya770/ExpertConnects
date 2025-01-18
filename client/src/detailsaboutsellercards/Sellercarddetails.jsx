@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 const Sellercarddetails = () => {
   const id = useParams().id;
   const [dataaboutcards, setdataaboutcards] = useState([]);
@@ -12,10 +15,10 @@ const Sellercarddetails = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const dataaboutcardsfetched = await axios.get(
-        `http://localhost:3000/api/service/getsellersservices/${id}`,{withCredentials:true}
+        `${server_url}api/service/getsellersservices/${id}`,{withCredentials:true}
       );
       const detailsofsellerfetched = await axios.get(
-        `http://localhost:3000/api/service_provider/getsellerinfo/${id}`,{withCredentials:true}
+        `${server_url }api/service_provider/getsellerinfo/${id}`,{withCredentials:true}
       );
 
       setdataaboutcards(dataaboutcardsfetched.data);

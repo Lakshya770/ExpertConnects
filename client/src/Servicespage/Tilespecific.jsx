@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 const Tilespecific = () => {
     const name = useParams().name;
     const [carddata, setcarddata] = useState([]);
@@ -10,7 +13,7 @@ const Tilespecific = () => {
     useEffect(() => {
         const fetchdata = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/service/getsellersservicescategory/${name}`,{withCredentials:true});
+                const response = await axios.get(`${server_url }api/service/getsellersservicescategory/${name}`,{withCredentials:true});
                 setcarddata(response.data.services);
             } catch (error) {
                 console.error('Error fetching services data:', error);

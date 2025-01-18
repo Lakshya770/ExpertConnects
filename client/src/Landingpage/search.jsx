@@ -1,11 +1,14 @@
 
-
-
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Slide from "../components/Slide"; // Import the Slide component
+
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
+console.log(import.meta.env);
+
 
 const Search = () => {
   const [searchtext, setsearchtext] = useState("All");
@@ -74,8 +77,9 @@ const Search = () => {
         setservices(fixservices);
         return;
       }
+      console.log("Server URL:", server_url);
       const carddatafetched = await axios.get(
-        `http://localhost:3000/api/service/getserviceformain/${searchtext}`
+        `${server_url}api/service/getserviceformain/${searchtext}`
       );
       if (searchtext === "All") {
         setfixservices(carddatafetched.data.services);
@@ -84,6 +88,7 @@ const Search = () => {
       setservices(carddatafetched.data.services);
     };
     fetchcards();
+
   }, [,boolval]);
 
   const changefunc = (e) => {
@@ -125,7 +130,7 @@ const Search = () => {
 
 
       <div >
-        {services.length > 0 ? (
+        {services?.length > 0 ? (
           <Slide  {...sliderSettings}> 
             {services.map((item) => (
                 <>

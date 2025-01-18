@@ -1,6 +1,9 @@
 import { useParams } from 'react-router-dom'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 const Myservices=()=>{
 
     const id=useParams().id;
@@ -12,7 +15,7 @@ const Myservices=()=>{
     useEffect(()=>{
                 
             const datafetch=async()=>{
-                const dt=await axios.get(`http://localhost:3000/api/service/myservices/${id}`,{withCredentials:true})
+                const dt=await axios.get(`${server_url }api/service/myservices/${id}`,{withCredentials:true})
 
                 console.log(dt.data.services);
 

@@ -11,6 +11,9 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
+const server_url = import.meta.env.VITE_SERVER_URL;
+
+
 const SellersignUpfunc = () => {
    
   const [file,setfile]=useState(null)
@@ -61,7 +64,7 @@ const SellersignUpfunc = () => {
       const updatedformdata={...formdata,Coverphoto:url}
       console.log(updatedformdata)
   
-      const response = await axios.post("http://localhost:3000/api/service_provider/sellersignup", updatedformdata,{headers:{"Content-Type":"application/json"}})
+      const response = await axios.post(`${server_url }api/service_provider/sellersignup`, updatedformdata,{headers:{"Content-Type":"application/json"}})
       
       console.log(response.data)
       if(response.status===200){

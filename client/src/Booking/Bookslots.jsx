@@ -4,6 +4,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 
+
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
+
+
+
 const Bookslots = () => {
   const location = useLocation();
   const [data, setdata] = useState([]);
@@ -23,7 +30,7 @@ const Bookslots = () => {
     const fetchsellerdata = async () => {
       const id = servicedata.serviceprovider._id;
       const paymentby = await axios.get(
-        `http://localhost:3000/api/service_provider/getsellerinfo/${id}`,
+        `${server_url }api/service_provider/getsellerinfo/${id}`,
         { withCredentials: true }
       );
       setsellerdata(paymentby.data);
@@ -39,11 +46,11 @@ const Bookslots = () => {
     try {
       const {
         data: { key },
-      } = await axios.get("http://localhost:3000/api/payments/getkey",{withCredentials:true});
+      } = await axios.get(`${server_url }api/payments/getkey`,{withCredentials:true});
   
       const {
         data: { order },
-      } = await axios.post("http://localhost:3000/api/payments/checkout", {
+      } = await axios.post(`${server_url }api/payments/checkout`, {
         amount,
       },{withCredentials:true});
   
@@ -61,7 +68,7 @@ const Bookslots = () => {
       name: userloggedIN?.Name,
       image: userloggedIN?.CoverPhotouser,
       order_id: order.id,
-      callback_url: `http://localhost:3000/api/payments/paymentverification?orderbyUser=${userloggedIN._id}&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
+      callback_url: `${server_url }api/payments/paymentverification?orderbyUser=${userloggedIN._id}&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
         JSON.stringify(selectedslot)
       )}`,
       prefill: {

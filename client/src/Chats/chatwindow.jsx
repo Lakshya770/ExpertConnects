@@ -4,7 +4,9 @@ import { useStore } from '../store';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import {Send} from 'lucide-react';
+import dotenv from "dotenv";
 
+// dotenv.config();
 const Chat = () => {
   const mineid = useParams().mineid;
   const sellerId = useParams().sellersid;
@@ -15,9 +17,11 @@ const Chat = () => {
   const socket = useRef(null);
   const [label,setlabel]=useState({});
 
+  const server_url = import.meta.env.VITE_SERVER_URL;
+
   useEffect(()=>{
     const fetch=async()=>{
-        const dt=await axios.get(`http://localhost:3000/api/messages/chatlabel/${sellerId}/${chattingto}`,{withCredentials:true})
+        const dt=await axios.get(`${server_url }api/messages/chatlabel/${sellerId}/${chattingto}`,{withCredentials:true})
         console.log(dt.data.data);
         setlabel(dt.data.data);
 
@@ -27,7 +31,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io('http://localhost:3000', { transports: ['websocket'] });
+      socket.current = io(`${server_url }`, { transports: ['websocket'] });
     }
 
     const roomId = [mineid, sellerId].sort().join('-');
@@ -35,7 +39,7 @@ const Chat = () => {
 
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/messages/${roomId}`);
+        const response = await axios.get(`${server_url }api/messages/${roomId}`);
         setMessages(response?.data || []);
       } catch (err) {
         console.error('Error fetching messages:', err);

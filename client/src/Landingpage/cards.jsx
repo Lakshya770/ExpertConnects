@@ -43,12 +43,12 @@ const Cards=({cardsdata})=>{
     return(
         <div >
             {
-                (cardsdata && cardsdata.length>0)?
+                (cardsdata && cardsdata?.length>0)?
                 (
 
                     <Slide {...sliderSettings} >
                         {
-                    cardsdata.map((item)=>
+                    cardsdata?.map((item)=>
                        (    <>
                             <Link to={`/sellercardsdetails/${item._id}`} key={item._id}>
                             <div className=" flex-col  rounded-md  w-60 h-72 bg-gray-100 shadow-md hover:shadow-xl  hover:cursor-pointer hover:scale-105 transition-all duration-200  mt-10">

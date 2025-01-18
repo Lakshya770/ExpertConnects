@@ -2,6 +2,11 @@ import { useParams } from "react-router-dom";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
+// dotenv.config();
 const Myclients = () => {
 
     const id=useParams().id
@@ -12,7 +17,7 @@ const Myclients = () => {
     useEffect(()=>{
 
         const datafetch=async()=>{
-            const dt=await axios.get(`http://localhost:3000/api/orders/myclients/${id}`,{withCredentials:true})
+            const dt=await axios.get(`${server_url}api/orders/myclients/${id}`,{withCredentials:true})
             console.log(dt.data);
             setstatuscode(dt.data.code);
             if(dt.data.code!=404){

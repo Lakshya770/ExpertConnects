@@ -46,7 +46,7 @@ const server=createServer(app);
 
 const io = new Server(server, {
     cors:{
-        origin:'http://localhost:5173',
+        origin:'https://expert-connect-lakshya-kumar-sharmas-projects.vercel.app/',
         methods: ['GET', 'POST'],
         credentials:true
     }
@@ -63,7 +63,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:'https://expert-connect-lakshya-kumar-sharmas-projects.vercel.app',
     credentials:true,
 }))
 

@@ -13,6 +13,9 @@ import { useState } from 'react';
 import axios from 'axios'
 import Cookies from "js-cookie"
 
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 const StyledMenu =styled((props) => (
         <Menu
           elevation={0}
@@ -139,7 +142,7 @@ const StyledMenu =styled((props) => (
                 const updatedformdata={...formdata,Coverphotouser:url}
                 console.log(updatedformdata)
             
-                const response = await axios.post("http://localhost:3000/api/service/addservice", updatedformdata,{headers:{"Content-Type":"application/json"}},{withCredentials:true})
+                const response = await axios.post(`${server_url }api/service/addservice`, updatedformdata,{headers:{"Content-Type":"application/json"}},{withCredentials:true})
                 
                 console.log(response.data)
                 

@@ -12,10 +12,7 @@ import { toast } from 'react-toastify';
 
 
 
-
-
-
-
+const server_url = import.meta.env.VITE_SERVER_URL;
 
 
 export const Signfunc = () => {
@@ -65,7 +62,7 @@ export const Signfunc = () => {
 
       if(alignment==="User"){
         try {    
-              const response = await axios.post("http://localhost:3000/api/user/login", 
+              const response = await axios.post(`${server_url}api/user/login`, 
               formdata, 
               { headers: { "Content-Type": "application/json" },
             withCredentials: true}
@@ -93,7 +90,7 @@ export const Signfunc = () => {
       }
       else if(alignment==="Service Provider"){
         try {
-              const response = await axios.post("http://localhost:3000/api/service_provider/login", 
+              const response = await axios.post(`${server_url }api/service_provider/login`, 
               formdata, 
               { headers: { "Content-Type": "application/json" },
             withCredentials: true}

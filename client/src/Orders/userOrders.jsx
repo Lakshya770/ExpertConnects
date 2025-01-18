@@ -4,6 +4,9 @@ import { useEffect ,useState} from 'react';
 import axios from 'axios';
 import { use } from 'react';
 
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 const MyOrders = () => {
     const id=useParams().id;
 
@@ -19,7 +22,7 @@ const MyOrders = () => {
         if(loggednum==1){
             
             const datafetch=async()=>{
-                const dt=await axios.get(`http://localhost:3000/api/orders/getuserorders/${id}`,{withCredentials:true})
+                const dt=await axios.get(`${server_url }api/orders/getuserorders/${id}`,{withCredentials:true})
 
                 setstatuscode(dt.data.code);
 
@@ -43,7 +46,7 @@ const MyOrders = () => {
         if(loggednum==2){
             
             const datafetch=async()=>{
-                const dt=await axios.get(`http://localhost:3000/api/orders/getsellerorders/${id}`,{withCredentials:true})
+                const dt=await axios.get(`${server_url }api/orders/getsellerorders/${id}`,{withCredentials:true})
 
                 console.log(dt);
 

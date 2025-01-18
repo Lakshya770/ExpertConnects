@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+
+const server_url = import.meta.env.VITE_SERVER_URL;
+
 // Toggle Button Component
 export const Signuptoggle = () => {
   const [alignment, setAlignment] = React.useState('User');  
@@ -110,7 +113,7 @@ export const Signfunc = () => {
       const updatedformdata={...formdata,CoverPhotouser:url}
       console.log(updatedformdata)
   
-      const response = await axios.post("http://localhost:3000/api/user/signup", 
+      const response = await axios.post(`${server_url }api/user/signup`, 
         updatedformdata, 
         { headers: { "Content-Type": "application/json" } }
       );
