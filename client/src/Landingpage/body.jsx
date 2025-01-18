@@ -7,8 +7,7 @@ import  Cookies  from "js-cookie"
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 
-const user=Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-console.log(user)
+
 
 const Body=()=>{
 
@@ -29,6 +28,9 @@ const Body=()=>{
             }
         }
         fetchCards()
+
+        const user=Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+console.log("Cookies h y",user)
     
     },[])
     return(
