@@ -147,7 +147,7 @@ const SellerStatus=()=>{
     const booleanvalue=Cookies.get('loggedIn')
     console.log(booleanvalue);
     const userthatislogged = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-    console.log(userthatislogged);
+    console.log("Cookies wale user h",userthatislogged);
 
 
     const addservices=()=>{
