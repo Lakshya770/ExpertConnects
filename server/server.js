@@ -46,7 +46,8 @@ const server=createServer(app);
 
 const io = new Server(server, {
     cors:{
-        origin:'https://expert-connect.vercel.app',
+        origin:['https://expert-connect.vercel.app','http://localhost:3000'],
+
         methods: ['GET', 'POST'],
         credentials:true
     }
@@ -63,7 +64,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.use(cors({
-    origin:'https://expert-connect.vercel.app',
+    origin:['https://expert-connect.vercel.app','http://localhost:3000'],
     credentials:true,
 }))
 

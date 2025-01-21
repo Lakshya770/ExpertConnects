@@ -68,8 +68,9 @@ export const Signfunc = () => {
             withCredentials: true}
 
             );
-            console.log(response); // Success response
+           
             if(response.status===200){
+              console.log("LoggedInseller",response.data); // Success response
               OnUserLogin();
               toast.success('Logged in Successfully',{
                 alignment: 'center'
@@ -95,8 +96,9 @@ export const Signfunc = () => {
               { headers: { "Content-Type": "application/json" },
             withCredentials: true}
             );
-            console.log(response.data); // Success response
+           
             if(response.status===200){
+              console.log("LoggedInseller",response.data); // Success response
               OnSellerLogin();
               toast.success('Logged in Successfully')
               navigate('/')
