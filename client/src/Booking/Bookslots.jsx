@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { useStore } from "../store.js";
 
 
 
@@ -16,14 +17,12 @@ const Bookslots = () => {
   const [data, setdata] = useState([]);
   const [selectedslot, setselectedslot] = useState({});
   const [sellerdata, setsellerdata] = useState([]);
-  const userloggedIN = Cookies.get("user")
-    ? JSON.parse(Cookies.get("user"))
-    : null;
+  const userloggedIN = useStore((state) => state.loggedInuser)||null;
   const serviceid = useParams().id;
 
   const { servicedata } = location.state || {};
   const service_providerid = data?.serviceprovider?._id;
-  const boolvalue = Cookies.get("loggedIn");
+  const boolvalue = useStore((state) => state.boolval);
 
   useEffect(() => {
     setdata(servicedata);
@@ -44,46 +43,51 @@ const Bookslots = () => {
 
   const checkouthandler = async (amount) => {
     try {
-      const {
-        data: { key },
-      } = await axios.get(`${server_url }api/payments/getkey`,{withCredentials:true});
+      // Fetch the Razorpay key from the backend
+      const { data: { key } } = await axios.get(`${server_url}api/payments/getkey`, { withCredentials: true });
   
-      const {
-        data: { order },
-      } = await axios.post(`${server_url }api/payments/checkout`, {
-        amount,
-      },{withCredentials:true});
+      // Check if the key is fetched properly
+      if (!key) {
+        throw new Error("Razorpay key is undefined");
+      }
   
-    } catch (error) {
-      toast.error("Please SignIn to access this service",
-        {
-          alignment: 'center' 
-        }
-      );
-    }
-    const options = {
-      key,
-      amount: order.amount,
-      currency: "INR",
-      name: userloggedIN?.Name,
-      image: userloggedIN?.CoverPhotouser,
-      order_id: order.id,
-      callback_url: `${server_url }api/payments/paymentverification?orderbyUser=${userloggedIN._id}&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
-        JSON.stringify(selectedslot)
-      )}`,
-      prefill: {
+      // Fetch the order from the backend
+      const { data: { order } } = await axios.post(`${server_url}api/payments/checkout`, { amount }, { withCredentials: true });
+  
+      // Ensure the order is fetched properly
+      if (!order) {
+        throw new Error("Order details are missing");
+      }
+  
+      // Razorpay options object
+      const options = {
+        key,  // Razorpay API key
+        amount: order.amount,
+        currency: "INR",
         name: userloggedIN?.Name,
-        email: userloggedIN?.Email,
-      },
-      theme: {
-        color: "#121212",
-      },
-    };
-
-    const razor = new window.Razorpay(options);
-    razor.open();
+        image: userloggedIN?.CoverPhotouser,
+        order_id: order.id,
+        callback_url: `${server_url}api/payments/paymentverification?orderbyUser=${userloggedIN._id}&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
+          JSON.stringify(selectedslot)
+        )}`,
+        prefill: {
+          name: userloggedIN?.Name,
+          email: userloggedIN?.Email,
+        },
+        theme: {
+          color: "#121212",
+        },
+      };
+  
+      // Initialize Razorpay and open the payment window
+      const razor = new window.Razorpay(options);
+      razor.open();
+    } catch (error) {
+      console.error("Error during checkout process:", error);
+      toast.error("Please SignIn to access this service", { alignment: 'center' });
+    }
   };
-
+  
   const handleClick = (slot) => {
     if (!slot.isbooked) setselectedslot(slot);
   };

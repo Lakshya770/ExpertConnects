@@ -88,7 +88,7 @@ export const  loginseller = async (req, res) => {
 
   const options={
     path:"/",
-    httpOnly:false,
+    httpOnly:true,
     secure:true,
     sameSite:"None",
   }

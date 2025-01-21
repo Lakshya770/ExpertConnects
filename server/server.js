@@ -46,7 +46,7 @@ const server=createServer(app);
 
 const io = new Server(server, {
     cors:{
-        origin:['https://expert-connect.vercel.app','http://localhost:3000'],
+        origin:['https://expert-connect.vercel.app','http://localhost:5173'],
 
         methods: ['GET', 'POST'],
         credentials:true
@@ -64,7 +64,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.use(cors({
-    origin:['https://expert-connect.vercel.app','http://localhost:3000'],
+    origin:['https://expert-connect.vercel.app','http://localhost:5173'],
     credentials:true,
 }))
 
@@ -81,6 +81,13 @@ export const razorpayInstance = new Razorpay({
 
 app.get('/', (req, res) => {
     res.send({message: 'Hello World'})
+})
+
+app.get('/getuserdatafromcookie',(req,res)=>{
+    const loggedInuser = req.cookies.user ? JSON.parse(req.cookies.user) : null;
+    const boolval = req.cookies.loggedIn || 0;
+    
+    res.status(200).json({loggedInuser,boolval})
 })
 
 

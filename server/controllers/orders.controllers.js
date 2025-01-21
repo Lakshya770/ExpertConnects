@@ -6,7 +6,7 @@ export const userorders=async(req,res)=>{
     if(data.length===0){
         return res.status(404).send("No order found by user")
     }
-    return res.status(200).json({message:"Orders fetched successfully",data})
+    return res.status(200).json({message:"Orders fetched successfully",data,code:200})
 }
 
 
@@ -18,7 +18,7 @@ export const sellerorders=async(req,res)=>{
         return res.status(200).json({message:"No order found by This seller",code:404})
     }
 
-    return res.status(200).json({message:"Orders fetched successfully",data})
+    return res.status(200).json({message:"Orders fetched successfully",data,code:200})
 }
 
 

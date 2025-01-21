@@ -3,15 +3,19 @@ import Cookies from 'js-cookie'
 import { useEffect ,useState} from 'react';
 import axios from 'axios';
 import { use } from 'react';
+import { useStore } from '../store.js';
+import { useLocation } from 'react-router-dom';
 
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 
 const MyOrders = () => {
+    const location=useLocation();
     const id=useParams().id;
+    const loggedinuser=useStore((state)=>state.loggedInuser);
+    const loggednum=useStore((state)=>state.boolval);
 
-    const loggednum=Cookies.get('loggedIn')
-    // for seller 2, user 1
+   
 
     const [fetchd,setfetchd]=useState([]);
     const [statuscode,setstatuscode]=useState(0);
@@ -30,7 +34,7 @@ const MyOrders = () => {
                     setfetchd(dt.data.data);
                 }
                 
-                console.log(dt.data.data);
+                console.log(dt.data);
                 
                 
             }
@@ -63,7 +67,7 @@ const MyOrders = () => {
 
             datafetch();
         }
-    },[])
+    },[location,loggednum,id])
 
 
         const navigate=useNavigate();
@@ -82,7 +86,7 @@ const MyOrders = () => {
 
     return  <div>
 
-        {fetchd.length>0 ?
+        {fetchd?.length>0 ?
             (
                     <div className='w-11/12 mx-auto align-middle'>
                         
@@ -132,7 +136,7 @@ const MyOrders = () => {
             )
             :(
                 <div>
-                    {statuscode===0?
+                    {statuscode==0?
                     <div className="flex items-center justify-center">
                      <img src="/images/Loading.gif" className="w-100 h-100 m-10"></img>
                     </div>

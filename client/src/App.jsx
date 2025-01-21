@@ -20,21 +20,43 @@ import MyOrders from './Orders/userOrders.jsx'
 import Myservices from './Servicespage/Myservices.jsx'
 import Myclients from './detailsaboutsellercards/Myclients.jsx'
 import Chat from './Chats/chatwindow.jsx'
+import axios from 'axios'
+
+const server_url=import.meta.env.VITE_SERVER_URL
 
 
 function App() {
 
   const OnUserLogin=useStore((state)=>state.OnUserLogin)
   const OnSellerLogin=useStore((state)=>state.OnSellerLogin)
-  useEffect(()=>{
-    const loggedIn=Cookies.get('loggedIn')
-    if(loggedIn && loggedIn==1){
-        OnUserLogin();
-    }
-    else if(loggedIn && loggedIn==2){
-        OnSellerLogin();
-    }
-  },[])
+  const Onlogout=useStore((state)=>state.Onlogout)
+  const boolzusVal=useStore((state)=>state.boolval)
+  const loggedzusInuser=useStore((state)=>state.loggedInuser)
+
+  useEffect(() => {
+    const fetchDataFromCookie = async () => {
+      try {
+        const respo = await axios.get(`${server_url}getuserdatafromcookie`, { withCredentials: true });
+        
+        if (respo.status === 200) {
+          console.log("Cookie m h y ni kuch vo data h", respo.data);
+          if (respo.data.boolval == 1) {
+            await OnUserLogin(respo.data.loggedInuser);
+          } else if (respo.data.boolval == 2) {
+            await OnSellerLogin(respo.data.loggedInuser);
+          } else {
+            Onlogout();
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data from cookies:", error);
+      }
+    };
+  
+    fetchDataFromCookie();
+  
+  }, []); 
+  
   
   
   return (

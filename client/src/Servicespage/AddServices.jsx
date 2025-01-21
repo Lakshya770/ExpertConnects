@@ -12,6 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios'
 import Cookies from "js-cookie"
+import { useStore } from '../store.js'
+import { use } from 'react';
 
 
 const server_url = import.meta.env.VITE_SERVER_URL;
@@ -61,10 +63,11 @@ const StyledMenu =styled((props) => (
       
        const AddService=()=> {
 
+        const userthatislogged=useStore((state)=>state.loggedInuser)||null
         const [anchorEl, setAnchorEl] = React.useState(null);
         const [file,setfile]=useState(null)
         const [drop,setdrop]=useState('Service Providing')
-        const userthatislogged = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
+        // const userthatislogged = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
         
         console.log(userthatislogged)
         const [formdata,setformdata]=React.useState({

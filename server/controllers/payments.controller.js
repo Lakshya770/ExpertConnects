@@ -100,7 +100,7 @@ export const paymentVerification=async(req,res)=>{
     
 
     res.redirect(
-      `https://expert-connect-lakshya-kumar-sharmas-projects.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
+      `https://expert-connect.vercel.app/paymentsuccess?reference=${razorpay_payment_id}`
     );
   } else {
     res.status(400).json({

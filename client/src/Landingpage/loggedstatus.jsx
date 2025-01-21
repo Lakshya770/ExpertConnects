@@ -28,6 +28,8 @@ export const Signupstatus = () => {
 
 
 
+
+
 const UserStatus=()=>{
 
     const navigate=useNavigate()
@@ -35,6 +37,10 @@ const UserStatus=()=>{
     const menuRef = useRef(null);
 
     const onLogout=useStore(state=>state.Onlogout)
+    const boolVal=useStore(state=>state.boolval);
+    const loggedinuser= useStore(state=>state.loggedInuser);
+
+    console.log("te vc pehli h ",loggedinuser,boolVal);
 
     const userlogout=()=>{
         Cookies.remove('loggedIn')
@@ -46,7 +52,7 @@ const UserStatus=()=>{
 
 
     const myorders=()=>{
-        const id=Cookies.get('user') ? JSON.parse(Cookies.get('user'))._id : null;
+        const id=loggedinuser._id || null;
         navigate(`/myorders/${id}`)
         setisOpen(false)
     }
@@ -75,16 +81,12 @@ const UserStatus=()=>{
 
 
 
-    const booleanvalue=Cookies.get('loggedIn')
-    console.log(booleanvalue);
-    const userthatislogged = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-    console.log(userthatislogged);
-    
+  
     return(
         <div>
         <div className="flex text-xl align-middle gap-x-2 justify-center" onClick={toggleopen}>
-        <img src={userthatislogged?.CoverPhotouser}  className="w-14 h-14 rounded-md"/>
-        <h1 className="flex justify-center text-xl  items-center">{userthatislogged?.Name}</h1>
+        <img src={loggedinuser?.CoverPhotouser}  className="w-14 h-14 rounded-md"/>
+        <h1 className="flex justify-center text-xl  items-center">{loggedinuser?.Name}</h1>
         </div>
         <div >
         {isOpen && (
@@ -106,7 +108,10 @@ const SellerStatus=()=>{
 
     const [isOpen,setisOpen]=useState(false)
     const menuRef = useRef(null);
+    
     const onLogout=useStore(state=>state.Onlogout)
+    const boolVal=useStore(state=>state.boolval)
+    const loggedinuser=useStore(state=>state.loggedInuser)
     const navigate=useNavigate()
 
     const sellerlogout=()=>{
@@ -118,7 +123,7 @@ const SellerStatus=()=>{
     }
 
     const myorders=()=>{
-      const id=Cookies.get('user') ? JSON.parse(Cookies.get('user'))._id : null;
+      const id=loggedinuser._id || null;
       navigate(`/myorders/${id}`)
       setisOpen(false)
   }
@@ -144,11 +149,7 @@ const SellerStatus=()=>{
       }, []);
 
 
-    const booleanvalue=Cookies.get('loggedIn')
-    console.log(booleanvalue);
-    const userthatislogged = Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-    console.log("Cookies wale user h",userthatislogged);
-
+   
 
     const addservices=()=>{
         navigate('/addservices')
@@ -156,13 +157,13 @@ const SellerStatus=()=>{
     }
 
     const myservices=()=>{
-        const id=Cookies.get('user') ? JSON.parse(Cookies.get('user'))._id : null;
+        const id=loggedinuser._id || null;
         navigate(`/myservices/${id}`)
         setisOpen(false)
     }
 
     const clients=()=>{
-      const id=Cookies.get('user') ? JSON.parse(Cookies.get('user'))._id : null;
+      const id=loggedinuser._id || null;
       navigate(`/clients/${id}`)
       setisOpen(false)
   }
@@ -170,8 +171,8 @@ const SellerStatus=()=>{
     return(
         <div>
         <div onClick={toggleopen}>
-        <img src={userthatislogged?.Coverphoto}  className="w-14 h-14 rounded-md"/>
-        <h1 className="flex justify-center text-xl  items-center">{userthatislogged?.SellerName}</h1>
+        <img src={loggedinuser?.Coverphoto}  className="w-14 h-14 rounded-md"/>
+        <h1 className="flex justify-center text-xl  items-center">{loggedinuser?.SellerName}</h1>
         </div>
         <div >
         {isOpen && (
@@ -197,13 +198,13 @@ const RenderComponets=()=>{
     const boolval=useStore((state)=>state.boolval)
 
 
-    if(boolval===0){
+    if(boolval==0){
         return <Signupstatus/>
     }
-    else if(boolval===1){
+    else if(boolval==1){
         return <UserStatus/>
     }
-    else if(boolval===2){
+    else if(boolval==2){
         return <SellerStatus/>
     }
 }

@@ -87,7 +87,7 @@ export const loginuser = async (req, res) => {
   const options={
     secure:true,
     sameSite:"None",
-    httpOnly:false,
+    httpOnly:true,
     path:"/",
   }
 
