@@ -26,7 +26,7 @@ const Myclients = () => {
               }
             }
         datafetch();
-    },[])
+    },[id])
 
     const contact=(idofseller,boolean)=>{
         
