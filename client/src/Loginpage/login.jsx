@@ -101,7 +101,7 @@ export const Signfunc = () => {
               console.log("LoggedInseller",response.data.loggedinuser); // Success response
               OnSellerLogin(response.data.loggedinuser);
               toast.success('Logged in Successfully')
-              navigate('/')
+              // navigate('/')
             }
 
           } catch (error) {
