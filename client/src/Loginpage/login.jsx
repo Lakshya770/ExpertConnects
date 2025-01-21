@@ -70,12 +70,12 @@ export const Signfunc = () => {
             );
            
             if(response.status===200){
-              console.log("LoggedInseller",response.data); // Success response
-              OnUserLogin();
+              console.log("LoggedInseller",response.data.loggedinuser); // Success response
+              OnUserLogin(response.data.loggedinuser);
               toast.success('Logged in Successfully',{
                 alignment: 'center'
               })
-              navigate('/')
+              // navigate('/')
             }
           } 
           catch (error) {
@@ -98,8 +98,8 @@ export const Signfunc = () => {
             );
            
             if(response.status===200){
-              console.log("LoggedInseller",response.data); // Success response
-              OnSellerLogin();
+              console.log("LoggedInseller",response.data.loggedinuser); // Success response
+              OnSellerLogin(response.data.loggedinuser);
               toast.success('Logged in Successfully')
               navigate('/')
             }
