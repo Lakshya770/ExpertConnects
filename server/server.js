@@ -75,7 +75,7 @@ const port=process.env.PORT || 3000
 
 export const razorpayInstance = new Razorpay({
     key_id:process.env.RAZORPAY_KEY_ID || "rzp_test_f9PijVgCTjKQsM" ,
-    key_secret:process.env.RAZORPAY_KEY_SECRET,
+    key_secret:process.env.RAZORPAY_KEY_SECRET|| B0KC6Ja3bHM2f3Yqjz5pbQUY,
 });
 
 
@@ -86,7 +86,7 @@ app.get('/', (req, res) => {
 app.get('/getuserdatafromcookie',(req,res)=>{
     const loggedInuser = req.cookies.user ? JSON.parse(req.cookies.user) : null;
     const boolval = req.cookies.loggedIn || 0;
-    
+
     res.status(200).json({loggedInuser,boolval})
 })
 
