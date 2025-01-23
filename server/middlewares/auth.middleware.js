@@ -15,18 +15,22 @@ export const verifyJWT=async(req,res,next) => {
  
      if(!token)
      {
-        return res.status(401).json({message:"Unauthorized Access"})
+        return res.status(401).json({message:"Unauthorized Access token ni h"})
      }
  
      const decodedToken=jwt.verify(token,process.env.ACCESS_TOKEN_SECURITY_KEY)
      console.log(decodedToken,"dec token");
+
+     console.log('user h y 2 wala ',decodedToken);
  
      if(loggedIn==2){
       const user=await Service_Provider.findById(decodedToken.userId).select(
         "-password")
 
+        
+
         if(!user){
-          return res.status(401).json({message:"Unauthorized Access"})
+          return res.status(401).json({message:"Unauthorized Access "})
         }
     
      }
