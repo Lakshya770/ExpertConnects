@@ -33,7 +33,7 @@ const Tilespecific = () => {
                 {!carddata || carddata.length === 0 ? (
                     <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-lg shadow-sm">
                         <img 
-                            src="/images/no-data.svg" 
+                            src="/images/no_data.png" 
                             alt="No services" 
                             className="w-48 h-48 mb-4 opacity-50"
                         />
