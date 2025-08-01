@@ -14,22 +14,22 @@ const Cards=({cardsdata})=>{
         const updateSliderSettings = () => {
           const width = window.innerWidth;
           if (width < 750) {
-            // Example for medium screens
+            
             setSliderSettings({ slidesToShow: 1, arrowsScroll: 2 });
           } else if (width >= 750 && width < 1024) {
-            // Example for medium screens
+           
             setSliderSettings({ slidesToShow: 2, arrowsScroll: 2 });
           } else if (width >= 1024 && width < 1250) {
-            // Example for medium screens
+            
             setSliderSettings({ slidesToShow: 3, arrowsScroll: 2 });
           } else {
-            // Default settings for large screens
+            
             setSliderSettings({ slidesToShow: 4, arrowsScroll: 3 });
           }
         };
         const timeoutId = setTimeout(updateSliderSettings, 50);
     
-        updateSliderSettings(); // Update on initial render
+        updateSliderSettings();
         window.addEventListener("resize", updateSliderSettings); // Update on window resize
     
         // Cleanup listener on component unmount

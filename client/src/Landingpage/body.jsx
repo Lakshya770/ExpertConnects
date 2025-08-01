@@ -29,9 +29,7 @@ const Body=()=>{
         }
         fetchCards()
 
-            // const user=Cookies.get('user') ? JSON.parse(Cookies.get('user')) : null;
-            // console.log("Cookies h y",user)
-            // console.log("saari cookies",document.cookie)
+         
     
     },[])
     return(
