@@ -86,20 +86,20 @@ const MyOrders = () => {
                 />
                 <div>
                   <h2 className="text-lg font-medium text-gray-700">
-                    {dt.orderfromServiceProvider.SellerName}
+                    {dt.orderfromServiceProvider?.SellerName}
                   </h2>
                   <h2 className="text-sm text-gray-500">
-                    {dt.orderfromServiceProvider.SellerEmail}
+                    {dt.orderfromServiceProvider?.SellerEmail}
                   </h2>
                 </div>
               </div>
 
               <div>
                 <h1 className="text-xl font-bold text-gray-800 align-middle">
-                  {dt.service.Title}
+                  {dt.service?.Title}
                 </h1>
                 <h1 className="text-sm text-gray-600 text-center">
-                  {dt.service.Category}
+                  {dt.service?.Category}
                 </h1>
                 <h1 className="text-sm text-gray-500 mt-1 text-center">
                   {JSON.parse(dt.selectedslot).day} at{" "}
