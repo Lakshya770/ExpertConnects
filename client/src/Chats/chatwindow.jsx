@@ -1,54 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useStore } from '../store';
-import axios from 'axios';
-import { io } from 'socket.io-client';
-import {Send} from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useStore } from "../store";
+import axios from "axios";
+import { io } from "socket.io-client";
+import { Send } from "lucide-react";
 import dotenv from "dotenv";
 
 // dotenv.config();
 const Chat = () => {
   const mineid = useParams().mineid;
   const sellerId = useParams().sellersid;
-  const chattingto=useParams().boolean;
+  const chattingto = useParams().boolean;
   const boolvalue = useStore((state) => state.boolval);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+  const [newMessage, setNewMessage] = useState("");
   const socket = useRef(null);
-  const [label,setlabel]=useState({});
+  const [label, setlabel] = useState({});
 
   const server_url = import.meta.env.VITE_SERVER_URL;
 
-  useEffect(()=>{
-    const fetch=async()=>{
-        const dt=await axios.get(`${server_url }api/messages/chatlabel/${sellerId}/${chattingto}`,{withCredentials:true})
-        console.log(dt.data.data);
-        setlabel(dt.data.data);
-
-    }
+  useEffect(() => {
+    const fetch = async () => {
+      const dt = await axios.get(
+        `${server_url}api/messages/chatlabel/${sellerId}/${chattingto}`,
+        { withCredentials: true }
+      );
+      console.log(dt.data.data);
+      setlabel(dt.data.data);
+    };
     fetch();
-  },[])
+  }, []);
 
   useEffect(() => {
     if (!socket.current) {
-      socket.current = io(`${server_url }`, { transports: ['websocket'] });
+      socket.current = io(`${server_url}`, { transports: ["websocket"] });
     }
 
-    const roomId = [mineid, sellerId].sort().join('-');
-    socket.current.emit('joinroom', { roomId });
+    const roomId = [mineid, sellerId].sort().join("-");
+    socket.current.emit("joinroom", { roomId });
 
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`${server_url }api/messages/${roomId}`);
+        const response = await axios.get(`${server_url}api/messages/${roomId}`);
         setMessages(response?.data || []);
       } catch (err) {
-        console.error('Error fetching messages:', err);
+        console.error("Error fetching messages:", err);
       }
     };
 
     fetchMessages();
 
-    socket.current.on('receiveMessage', (message) => {
+    socket.current.on("receiveMessage", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
 
@@ -60,9 +62,9 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (newMessage.trim()) {
-      const roomId = [mineid, sellerId].sort().join('-');
-      const senderType = boolvalue === 1 ? 'User' : 'ServiceProvider';
-      const receiverType = senderType === 'User' ? 'ServiceProvider' : 'User';
+      const roomId = [mineid, sellerId].sort().join("-");
+      const senderType = boolvalue === 1 ? "User" : "ServiceProvider";
+      const receiverType = senderType === "User" ? "ServiceProvider" : "User";
 
       const messageData = {
         roomId,
@@ -73,9 +75,9 @@ const Chat = () => {
         message: newMessage,
       };
 
-      socket.current.emit('sendMessage', messageData);
-    //   setMessages((prevMessages) => [...prevMessages, messageData]);
-      setNewMessage('');
+      socket.current.emit("sendMessage", messageData);
+      //   setMessages((prevMessages) => [...prevMessages, messageData]);
+      setNewMessage("");
     }
   };
 
@@ -84,33 +86,40 @@ const Chat = () => {
   useEffect(() => {
     const container = messagesEndRef.current;
     container.scrollTop = container.scrollHeight;
-  }, [messages]); 
+  }, [messages]);
 
-
-//   useEffect()
-
-
-
+  //   useEffect()
 
   return (
     <div className="flex flex-col h-[550px] bg-gray-200 rounded-lg ">
-        <div className='flex align-center items-center bg-slate-800 h-14'>
-            <img src={label.CoverPhotouser || label.Coverphoto} alt="" className="w-10 h-10 object-cover rounded-full ml-3 border-slate-300 border-2"/>
-            <h1 className='text-2xl font-bold ml-3  items-center text-white'>{label.Name}</h1>
-        </div>
-    
-      <div className="flex-1 p-4 overflow-y-auto min-h-[350px]" ref={messagesEndRef}>
+      <div className="flex align-center items-center bg-slate-800 h-14">
+        <img
+          src={label.CoverPhotouser || label.Coverphoto}
+          alt=""
+          className="w-10 h-10 object-cover rounded-full ml-3 border-slate-300 border-2"
+        />
+        <h1 className="text-2xl font-bold ml-3  items-center text-white">
+          {label.Name}
+        </h1>
+      </div>
+
+      <div
+        className="flex-1 p-4 overflow-y-auto min-h-[350px]"
+        ref={messagesEndRef}
+      >
         <div className="space-y-4">
           {messages?.map((msg, idx) => (
             <div
               key={idx}
-              className={`flex ${msg.senderId === mineid ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${
+                msg.senderId === mineid ? "justify-end" : "justify-start"
+              }`}
             >
               <div
                 className={`max-w-[70%] rounded-lg px-4 py-2 ${
                   msg.senderId === mineid
-                    ? 'bg-green-300 text-gray-800 rounded-br-none'
-                    : 'bg-purple-300 text-gray-800 rounded-bl-none'
+                    ? "bg-green-300 text-gray-800 rounded-br-none"
+                    : "bg-purple-300 text-gray-800 rounded-bl-none"
                 } shadow`}
               >
                 <p className="break-words">{msg.message}</p>
@@ -118,7 +127,7 @@ const Chat = () => {
             </div>
           ))}
           {/* Invisible div for scrolling reference */}
-          <div/>
+          <div />
         </div>
       </div>
 
@@ -132,7 +141,7 @@ const Chat = () => {
             placeholder="Type a message..."
             className="flex-1 rounded-full px-4 py-2 border-2 border-red-700 focus:outline focus:border-green-500 focus:border-2"
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 sendMessage();
               }
             }}

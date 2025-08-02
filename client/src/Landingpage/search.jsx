@@ -1,14 +1,11 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Slide from "../components/Slide"; // Import the Slide component
 
-
 const server_url = import.meta.env.VITE_SERVER_URL;
 
 console.log(import.meta.env);
-
 
 const Search = () => {
   const [searchtext, setsearchtext] = useState("All");
@@ -16,34 +13,30 @@ const Search = () => {
   const [services, setservices] = useState([]);
   const [fixservices, setfixservices] = useState([]);
 
-
   const [sliderSettings, setSliderSettings] = useState({
     slidesToShow: 4,
     arrowsScroll: 3,
   });
 
-
   useEffect(() => {
     const updateSliderSettings = () => {
-        console.log(services.length)
+      console.log(services.length);
       const width = window.innerWidth;
       if (width < 750) {
         // Example for medium screens
         setSliderSettings({ slidesToShow: 1, arrowsScroll: 2 });
       } else if (width >= 750 && width < 1024) {
-       
         setSliderSettings({ slidesToShow: 2, arrowsScroll: 2 });
       } else if (width >= 1024 && width < 1250) {
-       
         setSliderSettings({ slidesToShow: 3, arrowsScroll: 2 });
       } else {
-       
-        if(services.length>4)
-        setSliderSettings({ slidesToShow: 4, arrowsScroll: 3 });
-
-        else 
-        setSliderSettings({ slidesToShow:Number(services.length-1) , arrowsScroll: 3 });
- 
+        if (services.length > 4)
+          setSliderSettings({ slidesToShow: 4, arrowsScroll: 3 });
+        else
+          setSliderSettings({
+            slidesToShow: Number(services.length - 1),
+            arrowsScroll: 3,
+          });
       }
     };
     const timeoutId = setTimeout(updateSliderSettings, 50);
@@ -57,7 +50,6 @@ const Search = () => {
       clearTimeout(timeoutId);
     };
   }, [services]);
-
 
   const navigate = useNavigate();
 
@@ -88,8 +80,7 @@ const Search = () => {
       setservices(carddatafetched.data.services);
     };
     fetchcards();
-
-  }, [,boolval]);
+  }, [, boolval]);
 
   const changefunc = (e) => {
     setsearchtext(e.target.value);
@@ -125,52 +116,58 @@ const Search = () => {
             </button>
           </form>
         </div>
-
       </div>
 
-
-      <div >
+      <div>
         {services?.length > 0 ? (
-          <Slide  {...sliderSettings}> 
+          <Slide {...sliderSettings}>
             {services.map((item) => (
-                <>
-              <div
-  className="flex flex-col w-72 h-96 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 mt-10 overflow-hidden"
-  key={item._id}
->
-  <img 
-    src={item.Coverphotouser} 
-    alt="image" 
-    className="w-72 h-40 object-cover rounded-t-lg"
-  />
-  <div className="flex flex-col flex-grow p-4 space-y-2">
-    <h1 className="text-lg font-semibold text-gray-800 line-clamp-1">
-      {item.Title}
-    </h1>
-    <h1 className="text-sm text-gray-600">
-      {item.Specialisedin}
-    </h1>
-   
-    <h1 className="text-sm font-medium text-gray-700 flex items-center">
-    <span><img className="w-10 h-10 rounded-full mr-2" src={item.serviceprovider.Coverphoto}/></span>
-      {item.serviceprovider.SellerName}
-    </h1>
-    <div className="flex items-center justify-between">
-      <span className="text-lg font-bold text-blue-600">₹{item.Price}</span>
-      <span className="text-sm text-gray-500">{item.Experience} yrs exp</span>
-    </div>
-    <div className="flex-grow"></div>
-    <button
-      className="w-full bg-blue-900 text-white rounded-md h-11 hover:bg-blue-800 transition-colors duration-200"
-      onClick={() => bookslotfunc(item)}
-    >
-      Book an appointment
-    </button>
-  </div>
-</div>
+              <>
+                <div
+                  className="flex flex-col w-72 h-96 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 mt-10 overflow-hidden"
+                  key={item._id}
+                >
+                  <img
+                    src={item.Coverphotouser}
+                    alt="image"
+                    className="w-72 h-40 object-cover rounded-t-lg"
+                  />
+                  <div className="flex flex-col flex-grow p-4 space-y-2">
+                    <h1 className="text-lg font-semibold text-gray-800 line-clamp-1">
+                      {item.Title}
+                    </h1>
+                    <h1 className="text-sm text-gray-600">
+                      {item.Specialisedin}
+                    </h1>
+
+                    <h1 className="text-sm font-medium text-gray-700 flex items-center">
+                      <span>
+                        <img
+                          className="w-10 h-10 rounded-full mr-2"
+                          src={item.serviceprovider.Coverphoto}
+                        />
+                      </span>
+                      {item.serviceprovider.SellerName}
+                    </h1>
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-bold text-blue-600">
+                        ₹{item.Price}
+                      </span>
+                      <span className="text-sm text-gray-500">
+                        {item.Experience} yrs exp
+                      </span>
+                    </div>
+                    <div className="flex-grow"></div>
+                    <button
+                      className="w-full bg-blue-900 text-white rounded-md h-11 hover:bg-blue-800 transition-colors duration-200"
+                      onClick={() => bookslotfunc(item)}
+                    >
+                      Book an appointment
+                    </button>
+                  </div>
+                </div>
               </>
-            ))
-            }
+            ))}
           </Slide>
         ) : (
           <div className="flex items-center justify-center">

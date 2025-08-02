@@ -1,49 +1,47 @@
 import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
-    orderbyUser:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"User"},
-    
-    orderbySeller:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Service_Provider"
-    },
-    razorpayorderId:{
-        type:String,
-        required:true
-    },
-    boolnum:{
-        type:Number,
-        default:0
+const orderSchema = new mongoose.Schema(
+  {
+    orderbyUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
 
-    razorpaypaymentId:{
-        type:String,
-        required:true
+    orderbySeller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service_Provider",
     },
-    
-
-    orderfromServiceProvider:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Service_Provider",
-        required:true
+    razorpayorderId: {
+      type: String,
+      required: true,
     },
-    service:
-    {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Service",
-        required:true
-
+    boolnum: {
+      type: Number,
+      default: 0,
     },
-    selectedslot:{
-        type:String,
-        required:true
-    }
 
-},
-    {timestamps:true})
+    razorpaypaymentId: {
+      type: String,
+      required: true,
+    },
 
+    orderfromServiceProvider: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service_Provider",
+      required: true,
+    },
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+      required: true,
+    },
+    selectedslot: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-    const Order = mongoose.model("Order", orderSchema);
-    export default Order
+const Order = mongoose.model("Order", orderSchema);
+export default Order;

@@ -5,19 +5,14 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useStore } from "../store.js";
 
-
-
 const server_url = import.meta.env.VITE_SERVER_URL;
-
-
-
 
 const Bookslots = () => {
   const location = useLocation();
   const [data, setdata] = useState([]);
   const [selectedslot, setselectedslot] = useState({});
   const [sellerdata, setsellerdata] = useState([]);
-  const userloggedIN = useStore((state) => state.loggedInuser)||null;
+  const userloggedIN = useStore((state) => state.loggedInuser) || null;
   const serviceid = useParams().id;
 
   const { servicedata } = location.state || {};
@@ -29,7 +24,7 @@ const Bookslots = () => {
     const fetchsellerdata = async () => {
       const id = servicedata.serviceprovider._id;
       const paymentby = await axios.get(
-        `${server_url }api/service_provider/getsellerinfo/${id}`,
+        `${server_url}api/service_provider/getsellerinfo/${id}`,
         { withCredentials: true }
       );
       setsellerdata(paymentby.data);
@@ -44,30 +39,42 @@ const Bookslots = () => {
   const checkouthandler = async (amount) => {
     try {
       // Fetch the Razorpay key from the backend
-      const { data: { key } } = await axios.get(`${server_url}api/payments/getkey`, { withCredentials: true });
-  
+      const {
+        data: { key },
+      } = await axios.get(`${server_url}api/payments/getkey`, {
+        withCredentials: true,
+      });
+
       // Check if the key is fetched properly
       if (!key) {
         throw new Error("Razorpay key is undefined");
       }
-  
+
       // Fetch the order from the backend
-      const { data: { order } } = await axios.post(`${server_url}api/payments/checkout`, { amount }, { withCredentials: true });
-  
+      const {
+        data: { order },
+      } = await axios.post(
+        `${server_url}api/payments/checkout`,
+        { amount },
+        { withCredentials: true }
+      );
+
       // Ensure the order is fetched properly
       if (!order) {
         throw new Error("Order details are missing");
       }
-  
+
       // Razorpay options object
       const options = {
-        key,  // Razorpay API key
+        key, // Razorpay API key
         amount: order.amount,
         currency: "INR",
         name: userloggedIN?.Name,
         image: userloggedIN?.CoverPhotouser,
         order_id: order.id,
-        callback_url: `${server_url}api/payments/paymentverification?orderbyUser=${userloggedIN._id}&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
+        callback_url: `${server_url}api/payments/paymentverification?orderbyUser=${
+          userloggedIN._id
+        }&service=${serviceid}&boolnum=${boolvalue}&orderfromServiceProvider=${service_providerid}&selectedslot=${encodeURIComponent(
           JSON.stringify(selectedslot)
         )}`,
         prefill: {
@@ -78,16 +85,18 @@ const Bookslots = () => {
           color: "#121212",
         },
       };
-  
+
       // Initialize Razorpay and open the payment window
       const razor = new window.Razorpay(options);
       razor.open();
     } catch (error) {
       console.error("Error during checkout process:", error);
-      toast.error("Please SignIn to access this service", { alignment: 'center' });
+      toast.error("Please SignIn to access this service", {
+        alignment: "center",
+      });
     }
   };
-  
+
   const handleClick = (slot) => {
     if (!slot.isbooked) setselectedslot(slot);
   };
@@ -107,7 +116,7 @@ const Bookslots = () => {
                     {data.Description || "Service Description"}
                   </p>
                 </div>
-                
+
                 <div className="p-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {data?.Slots?.map((slot) => (
@@ -123,7 +132,8 @@ const Bookslots = () => {
                           }`}
                         onClick={() => handleClick(slot)}
                       >
-                        <div className={`p-4 text-center
+                        <div
+                          className={`p-4 text-center
                           ${
                             slot.isbooked
                               ? "text-gray-500"
@@ -135,9 +145,7 @@ const Bookslots = () => {
                           <div className="font-semibold text-lg mb-1">
                             {slot.day}
                           </div>
-                          <div className="text-sm">
-                            {`${slot.time}:00 PM`}
-                          </div>
+                          <div className="text-sm">{`${slot.time}:00 PM`}</div>
                           {slot.isbooked && (
                             <span className="absolute top-2 right-2 text-xs font-medium text-red-500">
                               Booked
@@ -158,9 +166,9 @@ const Bookslots = () => {
                     onClick={() => checkouthandler(data.Price)}
                     disabled={!selectedslot || selectedslot.isbooked}
                   >
-                    {selectedslot.isbooked 
+                    {selectedslot.isbooked
                       ? "Slot Unavailable"
-                      : selectedslot.time 
+                      : selectedslot.time
                       ? "Proceed to Checkout"
                       : "Select a Slot"}
                   </button>

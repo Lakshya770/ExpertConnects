@@ -64,9 +64,9 @@ const AddService = () => {
 
   const userthatislogged = useStore((state) => state.loggedInuser) || null;
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(formdata);
-  })
+  });
 
   useEffect(() => {
     setFormdata({
@@ -90,8 +90,12 @@ const AddService = () => {
   const handleClose = (e) => {
     setAnchorEl(null);
     const category = e.target?.id || "";
-    setDrop(category||"Service Providing");
-    setFormdata({ ...formdata, Category: category, serviceprovider: userthatislogged?._id });
+    setDrop(category || "Service Providing");
+    setFormdata({
+      ...formdata,
+      Category: category,
+      serviceprovider: userthatislogged?._id,
+    });
   };
 
   const changefunc = (e) => {
@@ -142,16 +146,12 @@ const AddService = () => {
       if (response.status === 200) {
         toast.success(response.data.message, { alignment: "center" });
         console.log(response.data);
-        navigate('/addservices');
-
-        
-        
-         
-
+        navigate("/addservices");
       }
     } catch (error) {
       const errorMsg =
-        error.response?.data?.message || "Error occurred while submitting service.";
+        error.response?.data?.message ||
+        "Error occurred while submitting service.";
       toast.error(errorMsg, { alignment: "center" });
       console.error("Error occurred:", error);
     } finally {
@@ -183,13 +183,19 @@ const AddService = () => {
           open={open}
           onClose={handleClose}
         >
-          {["Accountant", "Astrologer", "Consultant", "Doctor", "Lawyer", "Psychologist", "Veterinarian"].map(
-            (item) => (
-              <MenuItem onClick={handleClose} key={item} disableRipple id={item}>
-                {item}
-              </MenuItem>
-            )
-          )}
+          {[
+            "Accountant",
+            "Astrologer",
+            "Consultant",
+            "Doctor",
+            "Lawyer",
+            "Psychologist",
+            "Veterinarian",
+          ].map((item) => (
+            <MenuItem onClick={handleClose} key={item} disableRipple id={item}>
+              {item}
+            </MenuItem>
+          ))}
         </StyledMenu>
       </div>
 
@@ -240,7 +246,10 @@ const AddService = () => {
             placeholder="Mention features and benefits of your service"
             onChange={changefunc}
           />
-          <label htmlFor="file" className="block text-lg font-medium text-gray-700">
+          <label
+            htmlFor="file"
+            className="block text-lg font-medium text-gray-700"
+          >
             Upload Cover Photo
           </label>
           <input
@@ -250,7 +259,11 @@ const AddService = () => {
             className="align-center ml-20"
             onChange={handlefilechange}
           />
-          <Button onClick={serviceSubmit} variant="contained" disabled={isSubmitting}>
+          <Button
+            onClick={serviceSubmit}
+            variant="contained"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Registering..." : "Register"}
           </Button>
         </Box>

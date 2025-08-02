@@ -6,14 +6,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "./slide.css"
+import "./slide.css";
 
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 const Slide = ({ children, slidesToShow }) => {
   return (
-    <div className="slide-container" >
-        
+    <div className="slide-container">
       <Swiper
         navigation={true}
         cssMode={true}
@@ -25,14 +24,9 @@ const Slide = ({ children, slidesToShow }) => {
         modules={[Navigation, Pagination, Mousewheel, Keyboard]}
         className="mySwiper "
       >
-        
         {children.map((child, index) => (
           <SwiperSlide key={index} className="flex gap-5 pb-20">
-            <div className="mx-auto flex" >
-            {child}
-            </div>
-            
-            
+            <div className="mx-auto flex">{child}</div>
           </SwiperSlide>
         ))}
       </Swiper>

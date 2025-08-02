@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 const server_url = import.meta.env.VITE_SERVER_URL;
 
 const Sellercarddetails = () => {
@@ -15,10 +14,12 @@ const Sellercarddetails = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const dataaboutcardsfetched = await axios.get(
-        `${server_url}api/service/getsellersservices/${id}`,{withCredentials:true}
+        `${server_url}api/service/getsellersservices/${id}`,
+        { withCredentials: true }
       );
       const detailsofsellerfetched = await axios.get(
-        `${server_url }api/service_provider/getsellerinfo/${id}`,{withCredentials:true}
+        `${server_url}api/service_provider/getsellerinfo/${id}`,
+        { withCredentials: true }
       );
 
       setdataaboutcards(dataaboutcardsfetched.data);
@@ -48,7 +49,6 @@ const Sellercarddetails = () => {
           {/* Uncomment if description exists */}
           <p className="text-gray-600 mt-2">{detailsofseller.Description}</p>
           <p className="text-gray-600 mt-2">{detailsofseller.SellerEmail}</p>
-
         </div>
       </div>
 
@@ -73,7 +73,7 @@ const Sellercarddetails = () => {
                   {item.Description}
                 </p>
                 <h3 className="text-blue-600 font-bold text-lg mb-4">
-                ₹{item.Price}
+                  ₹{item.Price}
                 </h3>
                 <button
                   className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
