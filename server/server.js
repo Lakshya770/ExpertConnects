@@ -76,9 +76,9 @@ app.get("/getuserdatafromcookie", (req, res) => {
 
 app.get("/removecookies", (req, res) => {
   res
-    .clearCookie("user")
-    .clearCookie("loggedIn")
-    .clearCookie("token")
+    .clearCookie("user", { path: "/" }) 
+    .clearCookie("loggedIn", { path: "/" })
+    .clearCookie("token", { path: "/" })
     .status(200)
     .json({ message: "Cookie removed successfully" });
 });
