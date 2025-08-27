@@ -76,9 +76,9 @@ app.get("/getuserdatafromcookie", (req, res) => {
 
 app.get("/removecookies", (req, res) => {
   res
-    .clearCookie("user", { path: "/" }) 
-    .clearCookie("loggedIn", { path: "/" })
-    .clearCookie("token", { path: "/" })
+    .clearCookie("user", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
+    .clearCookie("loggedIn", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
+    .clearCookie("token", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
     .status(200)
     .json({ message: "Cookie removed successfully" });
 });
