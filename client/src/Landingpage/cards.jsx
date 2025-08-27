@@ -1,7 +1,7 @@
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Slide from "../components/Slide";
 import { useState, useEffect } from "react";
+
 const Cards = ({ cardsdata }) => {
   const [sliderSettings, setSliderSettings] = useState({
     slidesToShow: 2,
@@ -12,7 +12,7 @@ const Cards = ({ cardsdata }) => {
     const updateSliderSettings = () => {
       const width = window.innerWidth;
       if (width < 750) {
-        setSliderSettings({ slidesToShow: 1, arrowsScroll: 2 });
+        setSliderSettings({ slidesToShow: 1, arrowsScroll: 1 });
       } else if (width >= 750 && width < 1024) {
         setSliderSettings({ slidesToShow: 2, arrowsScroll: 2 });
       } else if (width >= 1024 && width < 1250) {
@@ -21,51 +21,50 @@ const Cards = ({ cardsdata }) => {
         setSliderSettings({ slidesToShow: 4, arrowsScroll: 3 });
       }
     };
-    const timeoutId = setTimeout(updateSliderSettings, 50);
 
     updateSliderSettings();
-    window.addEventListener("resize", updateSliderSettings); // Update on window resize
+    window.addEventListener("resize", updateSliderSettings);
 
-    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener("resize", updateSliderSettings);
-      clearTimeout(timeoutId);
     };
   }, []);
 
   return (
-    <div>
+    <div className="w-full">
       {cardsdata && cardsdata?.length > 0 ? (
         <Slide {...sliderSettings}>
           {cardsdata?.map((item) => (
-            <>
-              <Link to={`/sellercardsdetails/${item._id}`} key={item._id}>
-                <div className=" flex-col  rounded-md  w-60 h-72 bg-gray-100 shadow-md hover:shadow-xl  hover:cursor-pointer hover:scale-105 transition-all duration-200  mt-10">
-                  <img
-                    src={item.Coverphoto}
-                    alt="image"
-                    className="w-60 h-40 rounded-md "
-                  />
+            <Link to={`/sellercardsdetails/${item._id}`} key={item._id}>
+              <div className="flex flex-col rounded-lg w-[90%] sm:w-64 md:w-60 h-auto bg-gray-100 shadow-md hover:shadow-xl cursor-pointer transform hover:scale-105 transition-all duration-200 mt-6 mx-auto">
+                <img
+                  src={item.Coverphoto}
+                  alt="image"
+                  className="w-full h-40 object-cover rounded-t-lg"
+                />
 
-                  <h1 className="text-slate-600 font-bold text-center">
+                <div className="p-2 text-center">
+                  <h1 className="text-slate-700 font-semibold text-base sm:text-lg">
                     {item.SellerName}
                   </h1>
-                  <h1 className="text-slate-600 text-center">{item.Service}</h1>
-                  <h1 className="text-slate-600 text-center">
+                  <h2 className="text-slate-600 text-sm sm:text-base">
+                    {item.Service}
+                  </h2>
+                  <h3 className="text-slate-500 text-xs sm:text-sm break-words">
                     {item.SellerEmail}
-                  </h1>
-                  {/* <div className="flex justify-around">
-                                <span>Starting at</span>
-                                <span className="text-green-600 font-bold text-right" >₹{item.Price}</span>
-                                </div> */}
+                  </h3>
                 </div>
-              </Link>
-            </>
+              </div>
+            </Link>
           ))}
         </Slide>
       ) : (
-        <div className="flex items-center justify-center">
-          <img src="/images/Loading.gif" className="w-100 h-100 m-10"></img>
+        <div className="flex items-center justify-center w-full py-10">
+          <img
+            src="/images/Loading.gif"
+            className="w-16 h-16 sm:w-20 sm:h-20"
+            alt="Loading"
+          />
         </div>
       )}
     </div>

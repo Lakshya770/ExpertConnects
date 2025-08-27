@@ -5,8 +5,6 @@ import Slide from "../components/Slide"; // Import the Slide component
 
 const server_url = import.meta.env.VITE_SERVER_URL;
 
-console.log(import.meta.env);
-
 const Search = () => {
   const [searchtext, setsearchtext] = useState("All");
   const [boolval, setboolval] = useState(0);
@@ -20,34 +18,29 @@ const Search = () => {
 
   useEffect(() => {
     const updateSliderSettings = () => {
-      console.log(services.length);
       const width = window.innerWidth;
-      if (width < 750) {
-        // Example for medium screens
-        setSliderSettings({ slidesToShow: 1, arrowsScroll: 2 });
-      } else if (width >= 750 && width < 1024) {
+      if (width < 640) {
+        setSliderSettings({ slidesToShow: 1, arrowsScroll: 1 });
+      } else if (width >= 640 && width < 1024) {
         setSliderSettings({ slidesToShow: 2, arrowsScroll: 2 });
-      } else if (width >= 1024 && width < 1250) {
+      } else if (width >= 1024 && width < 1280) {
         setSliderSettings({ slidesToShow: 3, arrowsScroll: 2 });
       } else {
         if (services.length > 4)
           setSliderSettings({ slidesToShow: 4, arrowsScroll: 3 });
         else
           setSliderSettings({
-            slidesToShow: Number(services.length - 1),
-            arrowsScroll: 3,
+            slidesToShow: Math.max(1, services.length - 1),
+            arrowsScroll: 2,
           });
       }
     };
-    const timeoutId = setTimeout(updateSliderSettings, 50);
 
-    updateSliderSettings(); // Update on initial render
-    window.addEventListener("resize", updateSliderSettings); // Update on window resize
+    updateSliderSettings();
+    window.addEventListener("resize", updateSliderSettings);
 
-    // Cleanup listener on component unmount
     return () => {
       window.removeEventListener("resize", updateSliderSettings);
-      clearTimeout(timeoutId);
     };
   }, [services]);
 
@@ -69,14 +62,12 @@ const Search = () => {
         setservices(fixservices);
         return;
       }
-      console.log("Server URL:", server_url);
       const carddatafetched = await axios.get(
         `${server_url}api/service/getserviceformain/${searchtext}`
       );
       if (searchtext === "All") {
         setfixservices(carddatafetched.data.services);
       }
-      console.log("Fetched Data:", carddatafetched);
       setservices(carddatafetched.data.services);
     };
     fetchcards();
@@ -88,29 +79,34 @@ const Search = () => {
 
   return (
     <div>
-      <div>
+      {/* HERO SECTION */}
+      <div className="relative">
         <img
           src="/images/bg.png"
           alt="backgroundimage"
-          className="w-full h-[400px]"
+          className="w-full h-[300px] md:h-[400px] object-cover"
         />
-        <div>
-          <h1 className="text-5xl text-white absolute top-56 left-16 ">
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-white">
             Find your Expert
           </h1>
-          <h1 className="text-5xl text-white absolute top-1/2 left-16">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-white mt-2">
             Right away...
           </h1>
-          <form>
+
+          <form
+            onSubmit={onsearch}
+            className="mt-6 flex flex-col sm:flex-row items-center gap-2 w-full max-w-xl"
+          >
             <input
               type="text"
               placeholder="Search for the services..."
-              className="w-1/2 h-10 absolute top-96 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-black placeholder:text-center text-center"
+              className="flex-1 h-10 rounded-full border-2 border-black placeholder:text-center text-center px-3 w-full"
               onChange={changefunc}
             />
             <button
-              className="absolute top-96 left-2/3 translate-x-1/3 -translate-y-1/2 text-white bg-blue-900 w-20 h-10 rounded-full"
-              onClick={onsearch}
+              type="submit"
+              className="text-white bg-blue-900 px-4 py-2 rounded-full hover:bg-blue-800 transition-colors duration-200"
             >
               Search
             </button>
@@ -118,60 +114,57 @@ const Search = () => {
         </div>
       </div>
 
+      {/* CARDS SECTION */}
       <div>
         {services?.length > 0 ? (
           <Slide {...sliderSettings}>
             {services.map((item) => (
-              <>
-                <div
-                  className="flex flex-col w-72 h-96 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 mt-10 overflow-hidden"
-                  key={item._id}
-                >
-                  <img
-                    src={item.Coverphotouser}
-                    alt="image"
-                    className="w-72 h-40 object-cover rounded-t-lg"
-                  />
-                  <div className="flex flex-col flex-grow p-4 space-y-2">
-                    <h1 className="text-lg font-semibold text-gray-800 line-clamp-1">
-                      {item.Title}
-                    </h1>
-                    <h1 className="text-sm text-gray-600">
-                      {item.Specialisedin}
-                    </h1>
+              <div
+                className="flex flex-col w-64 sm:w-72 h-96 bg-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200 mt-10 overflow-hidden"
+                key={item._id}
+              >
+                <img
+                  src={item.Coverphotouser}
+                  alt="image"
+                  className="w-full h-40 object-cover rounded-t-lg"
+                />
+                <div className="flex flex-col flex-grow p-4 space-y-2">
+                  <h1 className="text-lg font-semibold text-gray-800 line-clamp-1">
+                    {item.Title}
+                  </h1>
+                  <h1 className="text-sm text-gray-600">{item.Specialisedin}</h1>
 
-                    <h1 className="text-sm font-medium text-gray-700 flex items-center">
-                      <span>
-                        <img
-                          className="w-10 h-10 rounded-full mr-2"
-                          src={item.serviceprovider.Coverphoto}
-                        />
-                      </span>
-                      {item.serviceprovider.SellerName}
-                    </h1>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-blue-600">
-                        ₹{item.Price}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {item.Experience} yrs exp
-                      </span>
-                    </div>
-                    <div className="flex-grow"></div>
-                    <button
-                      className="w-full bg-blue-900 text-white rounded-md h-11 hover:bg-blue-800 transition-colors duration-200"
-                      onClick={() => bookslotfunc(item)}
-                    >
-                      Book an appointment
-                    </button>
+                  <h1 className="text-sm font-medium text-gray-700 flex items-center">
+                    <span>
+                      <img
+                        className="w-8 h-8 rounded-full mr-2"
+                        src={item.serviceprovider.Coverphoto}
+                      />
+                    </span>
+                    {item.serviceprovider.SellerName}
+                  </h1>
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg font-bold text-blue-600">
+                      ₹{item.Price}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {item.Experience} yrs exp
+                    </span>
                   </div>
+                  <div className="flex-grow"></div>
+                  <button
+                    className="w-full bg-blue-900 text-white rounded-md h-11 hover:bg-blue-800 transition-colors duration-200"
+                    onClick={() => bookslotfunc(item)}
+                  >
+                    Book an appointment
+                  </button>
                 </div>
-              </>
+              </div>
             ))}
           </Slide>
         ) : (
           <div className="flex items-center justify-center">
-            <img src="/images/Loading.gif" className="w-100 h-100 m-10"></img>
+            <img src="/images/Loading.gif" className="w-20 h-20 m-10" />
           </div>
         )}
       </div>

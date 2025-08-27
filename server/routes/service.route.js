@@ -9,7 +9,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router_services = Router();
 
 router_services.route("/addservice").post(verifyJWT, putservices);
-router_services.route("/getsellersservices/:id").get(verifyJWT, getservices);
+router_services.route("/getsellersservices/:id").get(getservices);
 router_services
   .route("/getsellersservicescategory/:name")
   .get(getservicesbyname);

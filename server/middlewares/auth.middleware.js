@@ -7,7 +7,7 @@ export const verifyJWT = async (req, res, next) => {
   const loggedIn = req.cookies?.loggedIn;
 
   console.log(req.cookies);
-  console.log(token, " jyfvyjvyvsurayansh");
+  
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized Access token ni h" });

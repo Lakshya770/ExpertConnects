@@ -74,6 +74,15 @@ app.get("/getuserdatafromcookie", (req, res) => {
   res.status(200).json({ loggedInuser, boolval });
 });
 
+app.get("/removecookies", (req, res) => {
+  res
+    .clearCookie("user")
+    .clearCookie("loggedIn")
+    .clearCookie("token")
+    .status(200)
+    .json({ message: "Cookie removed successfully" });
+});
+
 app.use("/api/user", routeruser);
 app.use("/api/service_provider", router_server);
 app.use("/api/service", router_services);
