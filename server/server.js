@@ -75,12 +75,22 @@ app.get("/getuserdatafromcookie", (req, res) => {
 });
 
 app.get("/removecookies", (req, res) => {
-  res
-    .clearCookie("user", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
-    .clearCookie("loggedIn", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
-    .clearCookie("token", { path: "/", domain: 'expertconnect-ik9j.onrender.com' })
-    .status(200)
-    .json({ message: "Cookie removed successfully" });
+
+
+  const cookieOptions = {
+    path: '/',
+    domain: 'expertconnect-ik9j.onrender.com',
+    sameSite: 'None',
+    secure: true,
+    httpOnly: true, // Added this line to match the original cookie
+  };
+
+  // Clear the cookies using the specified options.
+  res.clearCookie('loggedIn', cookieOptions);
+  res.clearCookie('token', cookieOptions);
+  res.clearCookie('user', cookieOptions);
+return res.status(200).json({ message: 'Logged out successfully, all cookies cleared.' });
+
 });
 
 app.use("/api/user", routeruser);
