@@ -77,13 +77,13 @@ app.get("/getuserdatafromcookie", (req, res) => {
 app.get("/removecookies", (req, res) => {
 
 
-  const cookieOptions = {
-    path: '/',
-    domain: 'expertconnect-ik9j.onrender.com',
-    sameSite: 'None',
+const cookieOptions = {
     secure: true,
-    httpOnly: true, // Added this line to match the original cookie
+    sameSite: "None",
+    httpOnly: true,
+    path: "/", // must match exactly how you set it
   };
+
 
   // Clear the cookies using the specified options.
   res.clearCookie('loggedIn', cookieOptions);
